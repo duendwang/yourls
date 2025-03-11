@@ -18,9 +18,9 @@ services:
       YOURLS_DB_PREFIX: ${YOURLS_DB_PREFIX}
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.matomo.entrypoints=websecure"
-      - "traefik.http.routers.matomo.rule=Host(`$DOMAIN`)"
-      - "traefik.http.routers.matomo.tls.certresolver=http-challenge"
+      - "traefik.http.routers.yourls.entrypoints=websecure"
+      - "traefik.http.routers.yourls.rule=Host(`$DOMAIN`)"
+      - "traefik.http.routers.yourls.tls.certresolver=http-challenge"
     networks:
       - default
       - traefik-proxy
