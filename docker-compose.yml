@@ -5,6 +5,12 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+    user: ${PUID:-1000}:${PGID:-1000}
+    security_opt:
+      - "no-new-privileges:true"
+    cap-drop:
+      - SETUID
+      - SETGID
     expose:
       - ${PORT:-80}
     environment:
@@ -28,6 +34,12 @@ services:
   mysql:
     image: mysql:8.0
     restart: unless-stopped
+    user: ${PUID:-1000}:${PGID:-1000}
+    security_opt:
+      - "no-new-privileges:true"
+    cap-drop:
+      - SETUID
+      - SETGID
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Missing Mysql root password}
       MYSQL_DATABASE: ${YOURLS_DB_NAME:-yourls}
