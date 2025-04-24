@@ -5,18 +5,14 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
-    user: ${PUID:-1000}:${PGID:-1000}
     security_opt:
       - "no-new-privileges:true"
-    cap_drop:
-      - SETUID
-      - SETGID
     expose:
       - ${PORT:-80}
     environment:
       YOURLS_SITE: ${PROTO}://${DOMAIN:?Missing site DOMAIN}
-      YOURLS_USER: ${YOURLS_USER:?Missing admin username}
-      YOURLS_PASS: ${YOURLS_PASS:?Missing admin password}
+      YOURLS_USER: ${YOURLS_USER:?Missing admin username YOURLS_USER}
+      YOURLS_PASS: ${YOURLS_PASS:?Missing admin password YOURLS_PASS}
       YOURLS_DB_HOST: ${YOURLS_DB_HOST}
       YOURLS_DB_USER: ${YOURLS_DB_USER:?No database user set}
       YOURLS_DB_PASS: ${YOURLS_DB_PASS:?No database password set}
@@ -30,16 +26,11 @@ services:
     networks:
       - default
       - traefik-proxy
-
   mysql:
     image: mysql:8.0
     restart: unless-stopped
-    user: ${PUID:-1000}:${PGID:-1000}
     security_opt:
       - "no-new-privileges:true"
-    cap_drop:
-      - SETUID
-      - SETGID
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Missing Mysql root password}
       MYSQL_DATABASE: ${YOURLS_DB_NAME:-yourls}
@@ -54,8 +45,8 @@ services:
       interval: 5s
       timeout: 300s
       retries: 60
-
 networks:
   default:
   traefik-proxy:
+    external: true
     external: true
