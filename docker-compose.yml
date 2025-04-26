@@ -49,4 +49,3 @@ networks:
   default:
   traefik-proxy:
     external: true
-    external: true
